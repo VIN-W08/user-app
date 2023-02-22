@@ -1,10 +1,19 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import uiReducer from '../features/uiSlice';
+import userReducer from '../features/userSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    ui: uiReducer,
+    user: userReducer
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['user/setUserInput'],
+        ignoredPaths: ['user.userInput.dateOfBirth']
+      }
+    })
 });
 
 export type AppDispatch = typeof store.dispatch;
